@@ -21,6 +21,12 @@ const VideoSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
 });
 
 //이제 위에서 만들어 둔 스키마로 문서를 만든다. 아래는 데이터베이스 내에서 쓰일 문서를 만드는 과정이다.
