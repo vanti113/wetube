@@ -7,18 +7,27 @@ export const home = async (req, res) => {
   try {
     // async 함수는 나를 기다려주는 무언가이다.
     // await 명령어를 씀으로서 find함수가 데이터베이스로 만들어진Video문서에서 해당되는 문서를 찾을때까지 기다리라는 의미
-    const videos = await Video.find({}); // {}의 의미는 오브젝트를 전부 가져와라?
+    const videos = await Video.find({}).sort({ _id: -1 }); // {}의 의미는 오브젝트를 전부 가져와라?
     res.render("home", { pageTitle: "Home", videos });
   } catch (error) {
     console.log(error);
+
     //만약 에러가 발생한다면 아래와 같이 videos는 빈배열의 기본값을 가지고 있으므로 빈배열이 된다.
     res.render("home", { pageTitle: "Home", videos: [] });
   }
 };
-export const search = (req, res) => {
+export const search = async (req, res) => {
   const {
     query: { term: searchingBy },
   } = req;
+  let videos = [];
+  try {
+    videos = await Video.find({
+      title: { $regex: searchingBy, $options: "i" },
+    });
+  } catch (error) {
+    console.log(error);
+  }
   res.render("search", {
     pageTitle: "Search",
     searchingBy: searchingBy,
@@ -44,14 +53,14 @@ export const postUpload = async (req, res) => {
 
 export const upload = (req, res) =>
   res.render("upload", { pageTitle: "Upload" });
+
 export const videoDetail = async (req, res) => {
   const {
     params: { id },
   } = req;
-
   try {
     const video = await Video.findById(id);
-    res.render("videoDetail", { pageTitle: "Video Detail", video: video });
+    res.render("videoDetail", { pageTitle: video.title, video });
   } catch (error) {
     console.log(error);
     res.redirect(routes.home);
@@ -76,12 +85,19 @@ export const postEditVideo = async (req, res) => {
     body: { title, description },
   } = req;
   try {
-    await Video.findOneAndUpdate({ id }, { title, description });
+    await Video.findOneAndUpdate({ _id: id }, { title, description });
     res.redirect(routes.videoDetail(id));
   } catch (error) {
     res.redirect(routes.home);
   }
 };
 
-export const deleteVideo = (req, res) =>
-  res.render("deleteVideo", { pageTitle: "Delete Video" });
+export const deleteVideo = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  try {
+    await Video.findOneAndRemove({ _id: id });
+  } catch (error) {}
+  res.redirect(routes.home);
+};
