@@ -1,29 +1,40 @@
+import passport from "passport";
 import routes from "../routes";
+import User from "../models/User";
 
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "Join" });
 };
 
-export const postJoin = (req, res) => {
-  console.log(req.body);
+export const postJoin = async (req, res, next) => {
   const {
     body: { name, email, password, password2 },
   } = req;
+
   if (password !== password2) {
     res.status(400);
     res.render("join", { pageTitle: "Join" });
   } else {
-    //To Do : Register User(사용자 등록하기 잊지 마)
-    // To Do : Log user in
-    res.redirect(routes.home);
+    try {
+      const user = await User({
+        name,
+        email,
+      });
+      await User.register(user, password);
+      next();
+    } catch (error) {
+      console.log(error);
+      res.redirect(routes.home);
+    }
   }
 };
-
 export const getLogin = (req, res) =>
   res.render("login", { pageTitle: "Login" });
-export const postLogin = (req, res) => {
-  res.redirect(routes.home);
-};
+
+export const postLogin = passport.authenticate("local", {
+  failureRedirect: routes.login,
+  successRedirect: routes.home,
+});
 
 export const logout = (req, res) => {
   //To Do: Process Log Out
