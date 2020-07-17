@@ -6,7 +6,7 @@ const multerVideo = multer({ dest: "uploads/videos/" });
 export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = "WeTube";
   res.locals.routes = routes;
-  res.locals.user = req.user || null; //유저가 등록하게 되거나 로그인 하면 이 로컬변수가 작동한다.
+  res.locals.loggedUser = req.user || null; //유저가 등록하게 되거나 로그인 하면 이 로컬변수가 작동한다.
   console.log(req.user);
   next();
 };
