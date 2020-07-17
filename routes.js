@@ -18,11 +18,17 @@ const VIDEO_DETAIL = "/:id";
 const EDIT_VIDEO = "/:id/edit";
 const DELETE_VIDEO = "/:id/delete";
 
+//GITHUB
+const GITHUB = "/auth/github";
+const GITHUB_CALLBACK = "/auth/github/callback";
+
 const routes = {
   home: HOME,
   join: JOIN,
   login: LOGIN,
   logout: LOGOUT,
+  github: GITHUB,
+  githubCallback: GITHUB_CALLBACK,
   search: SEARCH,
   users: USERS,
   userDetail: (id) => {
