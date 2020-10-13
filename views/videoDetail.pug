@@ -3,11 +3,11 @@ include mixins/videoPlayer.pug
 
 block content
   .video-detail__container
-        +videoPlayer()
-        .video__info({
+        +videoPlayer({
             src:video.fileUrl
         })
-            if video.creator.id == loggedUser.id
+        .video__info
+            if loggedUser && video.creator.id === loggedUser.id
                 a(href=routes.editVideo(video.id))
                     button Edit video
             h5.video__title=video.title
