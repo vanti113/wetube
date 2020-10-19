@@ -1,5 +1,6 @@
 import routes from "../routes";
 import Video from "../models/Video"; // 컨트롤러애서 모델을 사용할수 있게 해준다.
+import Comment from "../models/Comment"; // 컨트롤러애서 모델을 사용할수 있게 해준다.
 
 export const home = async (req, res) => {
   // await는 성공을 보장하는 함수가 아니다. 에러가 발생해도 실행은 넘어간다. 따라서 에러를 확인하기 위해
@@ -63,7 +64,9 @@ export const videoDetail = async (req, res) => {
     params: { id },
   } = req;
   try {
-    const video = await Video.findById(id).populate("creator");
+    const video = await Video.findById(id)
+    .populate("creator")
+    .populate("comments");
     console.log(video);
     res.render("videoDetail", { pageTitle: video.title, video });
   } catch (error) {
@@ -116,3 +119,49 @@ export const deleteVideo = async (req, res) => {
     console.log(error);
   }
 };
+
+// Register Video View
+
+export const postRegisterView = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  try {
+    const video = await Video.findById(id);
+    video.views = video.views + 1;
+    video.save(); //도큐먼트의 변경점을 저장해 준다. 몽고디비에 저장된다.
+    res.status(200);
+  } catch (error) {
+    res.status(400);
+    console.log(error);
+  } finally {
+    res.end();
+  }
+};
+
+//Add Comment
+
+export const postAddComment = async(req,res)=>{
+  const {
+    params: { id },
+    body : {comment},
+    user,
+  } = req;
+
+  try {
+    const video = await Video.findById(id);
+    const newComment = await Comment.create({
+      text: comment,
+      creator: user.id,
+    });
+    video.comments.push(newComment.id);
+    video.save();
+  } catch (error) {
+    res.status(400);
+    
+  }finally{
+    res.end();
+  }
+
+
+}

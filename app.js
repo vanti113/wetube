@@ -13,6 +13,7 @@ import { localsMiddleware } from "./middlewares";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import apiRouter from "./routers/apiRouter";
 import routes from "./routes";
 import "./passport.js";
 
@@ -46,6 +47,7 @@ app.use(localsMiddleware);
 app.use(routes.home, globalRouter); // "/"루트에서 접속이 들어왔을시 옆의 라우터가 제공하는 url에 접속이 들어오면 라우터를 실행하는 것.
 app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
+app.use(routes.api, apiRouter);
 
 app.get("/test", (req, res) =>
   // res.render의 첫번째 인수는 뷰엔진 파일의 이름, 두번째 인수는 퍼그파일에 전달할 오브젝트가 될수 있다.

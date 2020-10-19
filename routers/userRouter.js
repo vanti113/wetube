@@ -18,4 +18,3 @@ userRouter.post(routes.changePassword, onlyPrivate, postChangePassword);
 userRouter.get(routes.userDetail(), userDetail);
 
 export default userRouter;
-console.log("I am middle tester");
