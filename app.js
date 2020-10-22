@@ -49,19 +49,5 @@ app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
 app.use(routes.api, apiRouter);
 
-app.get("/test", (req, res) =>
-  // res.render의 첫번째 인수는 뷰엔진 파일의 이름, 두번째 인수는 퍼그파일에 전달할 오브젝트가 될수 있다.
-  // 오브젝트는 그 특성상 문자열, 함수 뭐든 다 전달 가능..
-
-  res.render("test", {
-    title: "testPage!",
-    views: "Pug",
-    authors: "baekigun",
-    years: function getYear() {
-      const date = new Date();
-      return date.getFullYear();
-    },
-  })
-);
 console.log("I am in to app.js. it's test");
 export default app;

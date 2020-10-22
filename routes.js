@@ -24,8 +24,8 @@ const GITHUB = "/auth/github";
 const GITHUB_CALLBACK = "/auth/github/callback";
 
 //FACEBOOK
-const FB = "/auth/facebook";
-const FB_CALLBACK = "/auth/facebook/callback";
+const GOOGLE = "/auth/google";
+const GOOGLE_CALLBACK = "/auth/google/callback";
 
 //API
 const API = "/api";
@@ -40,8 +40,8 @@ const routes = {
   logout: LOGOUT,
   github: GITHUB,
   githubCallback: GITHUB_CALLBACK,
-  facebook: FB,
-  facebookCallback: FB_CALLBACK,
+  google: GOOGLE,
+  googleCallback: GOOGLE_CALLBACK,
   search: SEARCH,
   users: USERS,
   userDetail: (id) => {

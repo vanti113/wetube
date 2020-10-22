@@ -3,7 +3,7 @@ import axios from "axios";
 const addCommentForm = document.getElementById("jsAddComment");
 const commentList = document.getElementById("jsCommentList");
 const commentNumber = document.getElementById("jsCommentNumber");
-const deleteCommentBtn = document.querySelectorAll(".del__CommentBtn");
+const deleteCommentBtn = document.querySelectorAll("#jsDeleteBtn");
 
 const increaseNumber = () => {
   commentNumber.innerHTML = parseInt(commentNumber.innerHTML, 10) + 1;
@@ -39,18 +39,26 @@ const addComment = (comment, objId) => {
   const li = document.createElement("li");
   const span = document.createElement("span");
 
+  const delIcon = document.createElement("i");
+  const classList = ["fas", "fa-ban"];
+  delIcon.classList.add(...classList);
+  delIcon.addEventListener("click", deleteComment);
+
   /*  */
 
-  const a = document.createElement("a");
+  /* const a = document.createElement("a");
   a.classList.add("del__CommentBtn");
   a.innerText = "delete";
-  a.addEventListener("click", deleteComment);
+  a.addEventListener("click", deleteComment); */
 
   /*  */
   span.innerText = comment;
   li.id = objId;
   li.appendChild(span);
-  li.appendChild(a);
+  // li.appendChild(a);
+
+  li.appendChild(delIcon);
+
   commentList.prepend(li);
   increaseNumber();
 };

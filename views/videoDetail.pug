@@ -36,7 +36,8 @@ block content
                     if loggedUser && loggedUser.id == comment.creator
                         li(id=comment.id)
                             span= comment.text
-                            a.del__CommentBtn delete
+                            i.fas.fa-ban#jsDeleteBtn
+                            
                     else
                         li(id=comment.id) 
                             span= comment.text

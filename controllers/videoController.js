@@ -26,6 +26,7 @@ export const search = async (req, res) => {
     videos = await Video.find({
       title: { $regex: searchingBy, $options: "i" },
     });
+    console.log(videos);
   } catch (error) {
     console.log(error);
   }
@@ -63,6 +64,7 @@ export const videoDetail = async (req, res) => {
   const {
     params: { id },
   } = req;
+  console.log(req);
   try {
     const video = await Video.findById(id)
       .populate("creator")
@@ -110,6 +112,7 @@ export const deleteVideo = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id);
+    res.redirect(routes.home);
     if (video.creator != req.user.id) {
       throw Error();
     } else {
@@ -147,23 +150,24 @@ export const postAddComment = async (req, res) => {
     body: { comment },
     user,
   } = req;
-
-  try {
-    const video = await Video.findById(id);
-    const newComment = await Comment.create({
-      text: comment,
-      creator: user.id,
-    });
-    video.comments.push(newComment.id);
-    console.log(newComment.id);
-    video.save();
-    res.json({
-      objId: newComment.id,
-    });
-  } catch (error) {
-    res.status(400);
-  } finally {
-    res.end();
+  if (user) {
+    try {
+      const video = await Video.findById(id);
+      const newComment = await Comment.create({
+        text: comment,
+        creator: user.id,
+      });
+      video.comments.push(newComment.id);
+      console.log(newComment.id);
+      video.save();
+      res.json({
+        objId: newComment.id,
+      });
+    } catch (error) {
+      res.status(400);
+    } finally {
+      res.end();
+    }
   }
 };
 

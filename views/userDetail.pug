@@ -12,6 +12,7 @@ block content
             button ✏️ Edit Profile
          a(href=`/users${routes.changePassword}`)
             button 🔒 Change Password 
+      .user-profile__gaps
       .home-videos
             each item in user.videos 
                 +videoBlock({
