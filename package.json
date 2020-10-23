@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:server": "nodemon --exec babel-node init.js --delay 2 --ignore 'scss' --ignore 'static' ",
     "dev:assets": "WEBPACK_ENV=production webpack -w",
-    "build:assets": "WEBPACK_ENV=production webpack"
+    "build:assets": "WEBPACK_ENV=production webpack",
+    "build:server": "babel src --out-dir build",
+    "build": "npm run build:server && npm run build:assets"
   },
   "repository": {
     "type": "git",
